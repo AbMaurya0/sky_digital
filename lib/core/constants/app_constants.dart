@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+import 'app_strings.dart';
+
+class AppConstants {
+  static const String appName = AppStrings.appName;
+  static const String appDescription = AppStrings.appDescription;
+
+  static const List<NavigationItem> navigationItems = [
+    NavigationItem(AppStrings.navHome, '/home', Icons.home),
+    NavigationItem(AppStrings.navAbout, '/about', Icons.info),
+    NavigationItem(AppStrings.navCourses, '/courses', Icons.school),
+    NavigationItem(AppStrings.navContact, '/contact', Icons.contact_mail),
+  ];
+
+  static const Map<String, String> routes = {
+    '/home': AppStrings.navHome,
+    '/about': AppStrings.navAbout,
+    '/courses': AppStrings.navCourses,
+    '/contact': AppStrings.navContact,
+  };
+}
+
+class NavigationItem {
+  final String title;
+  final String route;
+  final IconData icon;
+
+  const NavigationItem(this.title, this.route, this.icon);
+}
