@@ -65,8 +65,8 @@ class AppStrings {
   // Contact Info (Contact Page & Footer)
   static const String contactEmail = 'skyjuniorcollege@gmail.com';
   static const String contactPhone = '+919460647232';
-  static const String contactAddress =
-      '5r,40 Near Sparsh Hospital R.C. Vyas colony Bhilwara';
+  static const String contactAddress = '''5r,40 Near Sparsh Hospital R.C.
+Vyas colony Bhilwara''';
   static const String contactHours = 'Mon-Fri: 9AM-6PM\nSat-Sun: 10AM-4PM';
 
   // Footer

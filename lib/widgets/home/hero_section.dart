@@ -10,6 +10,7 @@ class HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Stack(
       children: [
         // Sunset gradient background
@@ -59,6 +60,7 @@ class HeroSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 28),
+
               // College Name
               Text(
                 CollegeData.collegeName,
@@ -76,15 +78,12 @@ class HeroSection extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 14),
+
               // Location
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.location_on,
-                    color: AppColors.secondary,
-                    size: 22,
-                  ),
+                  Icon(Icons.location_on, color: AppColors.secondary, size: 22),
                   const SizedBox(width: 8),
                   Text(
                     CollegeData.location,
@@ -95,6 +94,7 @@ class HeroSection extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
+
               // Motto
               Container(
                 padding: const EdgeInsets.all(20),
@@ -116,47 +116,29 @@ class HeroSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 36),
-              // Action Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: onAdmissionsTap,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: AppColors.primary,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      elevation: 2,
-                    ),
-                    child: const Text('Admissions Open'),
+
+              // Action Buttons (Responsive + Hover Effects)
+              isMobile
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _buildElevatedButton(context),
+                      const SizedBox(height: 14),
+                      _buildOutlinedButton(context),
+                    ],
+                  )
+                  : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(child: _buildElevatedButton(context)),
+                      const SizedBox(width: 14),
+                      Expanded(child: _buildOutlinedButton(context)),
+                    ],
                   ),
-                  const SizedBox(width: 16),
-                  OutlinedButton(
-                    onPressed: onContactTap,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: BorderSide(color: Colors.white.withOpacity(0.85)),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: const Text('Contact Us'),
-                  ),
-                ],
-              ),
             ],
           ),
         ),
+
         // Decorative curve at the bottom
         Positioned(
           left: 0,
@@ -170,27 +152,87 @@ class HeroSection extends StatelessWidget {
       ],
     );
   }
+
+  /// Elevated Button with hover effect
+  Widget _buildElevatedButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onAdmissionsTap,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: AppColors.primary,
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        elevation: 2,
+      ).copyWith(
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+          (states) =>
+              states.contains(WidgetState.hovered)
+                  ? Colors.white.withOpacity(0.9)
+                  : Colors.white,
+        ),
+      ),
+      child: const Text('Admissions Open'),
+    );
+  }
+
+  /// Outlined Button with hover effect
+  Widget _buildOutlinedButton(BuildContext context) {
+    return OutlinedButton(
+      onPressed: onContactTap,
+      style: OutlinedButton.styleFrom(
+        foregroundColor: Colors.white,
+        side: BorderSide(color: Colors.white.withOpacity(0.85)),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      ).copyWith(
+        backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+          (states) =>
+              states.contains(WidgetState.hovered)
+                  ? Colors.white.withOpacity(0.1)
+                  : Colors.transparent,
+        ),
+      ),
+      child: const Text('Contact Us'),
+    );
+  }
 }
 
 class _SunsetWavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..shader = LinearGradient(
-        colors: [AppColors.secondary.withOpacity(0.7), AppColors.primary.withOpacity(0.5)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-    final path = Path()
-      ..moveTo(0, size.height * 0.5)
-      ..quadraticBezierTo(size.width * 0.25, size.height, size.width * 0.5, size.height * 0.7)
-      ..quadraticBezierTo(size.width * 0.75, size.height * 0.4, size.width, size.height * 0.8)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
+    final paint =
+        Paint()
+          ..shader = LinearGradient(
+            colors: [
+              AppColors.secondary.withOpacity(0.7),
+              AppColors.primary.withOpacity(0.5),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+
+    final path =
+        Path()
+          ..moveTo(0, size.height * 0.5)
+          ..quadraticBezierTo(
+            size.width * 0.25,
+            size.height,
+            size.width * 0.5,
+            size.height * 0.7,
+          )
+          ..quadraticBezierTo(
+            size.width * 0.75,
+            size.height * 0.4,
+            size.width,
+            size.height * 0.8,
+          )
+          ..lineTo(size.width, size.height)
+          ..lineTo(0, size.height)
+          ..close();
+
     canvas.drawPath(path, paint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-} 
+}

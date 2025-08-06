@@ -4,7 +4,8 @@ import '../../core/constants/app_constants.dart';
 class NavButton extends StatelessWidget {
   final NavigationItem item;
 
-  const NavButton({super.key, required this.item});
+  const
+  NavButton({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -24,4 +25,4 @@ class NavButton extends StatelessWidget {
       ),
     );
   }
-} 
+}
